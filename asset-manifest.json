@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/dotflare-v2/static/css/main.4647d582.css",
-    "main.js": "/dotflare-v2/static/js/main.41647dfe.js",
+    "main.css": "/dotflare-v2/static/css/main.78dc866b.css",
+    "main.js": "/dotflare-v2/static/js/main.08844c77.js",
     "static/js/453.a0e56df2.chunk.js": "/dotflare-v2/static/js/453.a0e56df2.chunk.js",
     "static/media/glyphicons-halflings-regular.svg": "/dotflare-v2/static/media/glyphicons-halflings-regular.060b2710bdbbe3dfe48b.svg",
     "static/media/picture.jpg": "/dotflare-v2/static/media/picture.0f40e4193446f10d42b3.jpg",
@@ -20,12 +20,12 @@
     "static/media/check-solid.svg": "/dotflare-v2/static/media/check-solid.e8ffb9bc60d3448236b9e343b0762fe6.svg",
     "static/media/chevron-right-solid.svg": "/dotflare-v2/static/media/chevron-right-solid.9c84d8d26e295991f35dcb0fd16c15a1.svg",
     "static/media/chevron-left-solid.svg": "/dotflare-v2/static/media/chevron-left-solid.a49890812f855c467e14f487e2601d95.svg",
-    "main.4647d582.css.map": "/dotflare-v2/static/css/main.4647d582.css.map",
-    "main.41647dfe.js.map": "/dotflare-v2/static/js/main.41647dfe.js.map",
+    "main.78dc866b.css.map": "/dotflare-v2/static/css/main.78dc866b.css.map",
+    "main.08844c77.js.map": "/dotflare-v2/static/js/main.08844c77.js.map",
     "453.a0e56df2.chunk.js.map": "/dotflare-v2/static/js/453.a0e56df2.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.4647d582.css",
-    "static/js/main.41647dfe.js"
+    "static/css/main.78dc866b.css",
+    "static/js/main.08844c77.js"
   ]
 }
