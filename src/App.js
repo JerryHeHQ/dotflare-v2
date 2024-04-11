@@ -341,6 +341,7 @@ function App() {
         imageIndex={imageIndex}
         clickPosX={clickPosX}
         clickPosY={clickPosY}
+        updateUserClickPosition={updateUserClickPosition}
         critiquerName={critiquerName}
         setCritiquerName={setCritiquerName} 
         formalElement={formalElement}

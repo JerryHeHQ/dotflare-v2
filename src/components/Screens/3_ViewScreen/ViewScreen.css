@@ -54,3 +54,14 @@
   font-size: 14px;
   color: #666;
 }
+
+.feedback-button {
+  border: 1px solid #444;
+  border-radius: 5px;
+  background-color: #BF8DFF;
+  font-weight: bold;
+  color: white;
+  font-size: 18px;
+  padding: 10px;
+  margin-top: 15px;
+}

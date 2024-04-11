@@ -72,6 +72,7 @@ function ViewScreen({
     setImageIndex(id - 1);
     setFeedbackImageIndex(id - 1);
     setActiveDotIndex(null);
+    updateUserClickPosition(null, null);
   };
 
   const [activeDotIndex, setActiveDotIndex] = useState(null);
@@ -131,6 +132,17 @@ function ViewScreen({
       </div>
       :
       null}
+
+      {clickPosX != null && clickPosY != null
+      ?
+      <button className='feedback-button' onClick={() => {navigateToScreen(4, 1);}}>
+        Proceed To Feedback
+      </button>
+      :
+      null
+      }
+
+      
       
       <NavigationButton backVisibility={true} nextVisibility={true} backText={"Home"} nextText={"Next"} backFunction={onBackClick} nextFunction={onNextClick}/>
     </div>

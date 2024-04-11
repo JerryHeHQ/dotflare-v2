@@ -3,7 +3,6 @@ import './FeedbackImage.css';
 import { addFeedback } from '../../../backend/FirebaseAPICalls/FirebaseAPI';
 
 const FeedbackImage = ({ 
-  navigateToScreen,
   isSender,
   image, 
   feedback, 
@@ -14,7 +13,6 @@ const FeedbackImage = ({
   updateUserClickPosition }) => {
   const imageRef = useRef(null);
   const [imageLoaded, setImageLoaded] = useState(false);
-  const [dotPositions, setDotPositions] = useState(null);
   const [selectedDots, setSelectedDots] = useState([]);
 
   const calcDotPosition = (xPercent, yPercent) => {
@@ -47,8 +45,6 @@ const FeedbackImage = ({
 
   useEffect(() => {
     if (imageLoaded && feedback != null) {
-      setDotPositions(null);
-      // calcDotPositions();
       setSelectedDots([]);
     }
   }, [image, imageLoaded, feedback])
@@ -75,7 +71,8 @@ const FeedbackImage = ({
     const yPercent = (yRelativeToImage / imageHeight);
 
     updateUserClickPosition(xPercent, yPercent);
-    navigateToScreen(4, 1);
+    displayDotFeedback(null);
+    // navigateToScreen(4, 1);
 
 
     // if (imageRef.current) {
@@ -122,6 +119,7 @@ const FeedbackImage = ({
 
   const handleDotClick = (dotIndex) => {
     highlightDots([dotIndex]);
+    updateUserClickPosition(null, null);
     displayDotFeedback(dotIndex);
   }
 
@@ -129,14 +127,23 @@ const FeedbackImage = ({
     setSelectedDots(dotIndices)
   }
 
-  const calculateDotStyle = (dotIndex) => {
-    const borderColor = `rgba(${feedback[`dot${dotIndex}`]['sentiment'] ? '0,255,0' : '255,0,0'},${selectedDots.includes(dotIndex) ? '1' : '0.33'})`
+  const calculateDotStyle = (dotIndex, isUserAdded) => {
+    var dotPosition = calcDotPosition(clickPosX, clickPosY);
+    if (!isUserAdded) {
+      const currDot = feedback[`dot${dotIndex}`];
+      dotPosition = calcDotPosition(currDot['x'], currDot['y'])
+    }
+    console.log(dotPosition);
 
-    console.log(dotPositions)
-    console.log(dotIndex)
+    var background = 'rgba(191, 141, 255, 0.33)'
+    if (!isUserAdded) {
+      background = feedback[`dot${dotIndex}`]['sentiment'] ? 'rgba(0,255,0,0.33)' : 'rgba(255,0,0,0.33)';
+    }
 
-    const currDot = feedback[`dot${dotIndex}`];
-    const dotPosition = calcDotPosition(currDot['x'], currDot['y'])
+    var borderColor = 'rgba(191, 141, 255, 1)';
+    if (!isUserAdded) {
+      borderColor = `rgba(${feedback[`dot${dotIndex}`]['sentiment'] ? '0,255,0' : '255,0,0'},${selectedDots.includes(dotIndex) ? '1' : '0.33'})`
+    }
 
     return {
       position: 'absolute',
@@ -145,7 +152,7 @@ const FeedbackImage = ({
       transform: 'translate(-50%, -50%)',
       width: '30px',
       height: '30px',
-      background: feedback[`dot${dotIndex}`]['sentiment'] ? 'rgba(0,255,0,0.33)' : 'rgba(255,0,0,0.33)',
+      background: background,
       border: `1px solid ${borderColor}`,
       borderRadius: '50%',
       zIndex: 1
@@ -157,8 +164,13 @@ const FeedbackImage = ({
       {imageLoaded && feedback != null && isVisible
       ?
       Array.from({ length: feedback['numDots']}, (_, index) => (
-        <div style={calculateDotStyle(index)} onClick={() => handleDotClick(index)} key={index}/>
+        <div style={calculateDotStyle(index, false)} onClick={() => handleDotClick(index)} key={index}/>
       ))
+      :
+      null}
+      {clickPosX != null && clickPosY != null
+      ?
+      <div style={calculateDotStyle(null, true)}/>
       :
       null}
     </div>

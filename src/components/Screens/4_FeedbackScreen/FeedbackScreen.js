@@ -12,6 +12,7 @@ function FeedbackScreen({
   imageIndex,
   clickPosX,
   clickPosY,
+  updateUserClickPosition,
   critiquerName,
   setCritiquerName ,
   formalElement,
@@ -32,6 +33,7 @@ function FeedbackScreen({
   };
 
   const onBackClick = () => {
+    updateUserClickPosition(null, null);
     navigateToScreen(3, 0);
   }
 
@@ -49,6 +51,7 @@ function FeedbackScreen({
       sentiment, 
       categoryIndex,
     )
+    updateUserClickPosition(null, null);
     navigateToScreen(3, 0);
   }
 
