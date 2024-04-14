@@ -7,8 +7,11 @@ import ViewScreen from './components/Screens/3_ViewScreen/ViewScreen';
 import FeedbackScreen from './components/Screens/4_FeedbackScreen/FeedbackScreen';
 import ResultsScreen from './components/Screens/5_ResultsScreen/ResultsScreen';
 import ProgressNavigation from './components/Common/NavigationBar/NavigationBar.js';
+import InvalidSession from './components/Common/InvalidSessionPopup/InvalidSessionPopup.js';
+
 
 import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 // This is imported for testing purposes
 import { createSession, joinSession, addImages, getImages, addCategories, getCategories, addFeedback, getFeedback } from "./backend/FirebaseAPICalls/FirebaseAPI"
@@ -16,9 +19,11 @@ import { toBeEmpty } from '@testing-library/jest-dom/dist/matchers.js';
 import { set } from 'firebase/database';
 
 
+
+
 /**
  * Sender Interaction Flow
- * 
+ *
  *  HomeScreen
  *    Create new session tokens
  *      Call FirebaseAPI to create session and return session tokens
@@ -36,7 +41,7 @@ import { set } from 'firebase/database';
  *      1_UploadScreen if uploadedImages == false
  *      2_CategoryScreen if selectedCategories == false
  *      3_ViewScreen otherwise
- * 
+ *
  *  UploadScreen
  *    When the add image button is pressed
  *      Open up a file explorer
@@ -98,9 +103,10 @@ import { set } from 'firebase/database';
  *    User should not be able to go back to the UploadScreen
  */
 
+
 /**
  * Receiver Interaction Flow
- * 
+ *
  *  ViewScreen (Only change for sender is that they can't add feedback)
  *    On navigate, call FirebaseAPI to get images and feedback
  *      On success, update the global states images and dotFeedback
@@ -137,7 +143,7 @@ import { set } from 'firebase/database';
  *    If the next button is pressed
  *      Navigate to 5_ResultsScreen
  *    (For sender only) User should not be able to go back to the CategoryScreen
- * 
+ *
  *  FeedbackScreen
  *    Allow users to entry text, select sentiment, and only select one category
  *    Save user input in the global states
@@ -154,7 +160,7 @@ import { set } from 'firebase/database';
  *        Make sure to add a user confirmation pop-up
  *      Add an ok animation before navigating back to 3_ViewScreen when the
  *      feedback is submitted
- * 
+ *
  *  ResultsScreen
  *    Same layout as ViewScreen (including image selector and toggle dots)
  *    but with graph at bottom
@@ -180,11 +186,14 @@ import { set } from 'firebase/database';
  */
 
 
+
+
 function App() {
   // Sender Screens: 0 1 2 3 5
   // Receiver Screens: 0 3 4 5
   const [currentScreenIndex, setCurrentScreenIndex] = useState(0);
   const [currentNavStep, setCurrentNavStep] = useState(0)
+
 
   // Set on HomeScreen, can be used anywhere
   const [tokenInfo, setTokenInfo] = useState();
@@ -207,21 +216,30 @@ function App() {
   const [categoryIndex, setCategoryIndex] = useState();
   // No global state for ResultsScreen, use FirebaseAPI or private state
 
+
+  // When inputting Session Token
+  const [isSessionValid, setIsSessionValid] = useState(true);
+
+
   // Local storage of Firebase data
   const [images, setImages] = useState();
   const [dotFeedback, setDotFeedback] = useState();
+
 
   const fetchImages = async () => {
     setImages(await getImages(senderToken, receiverToken));
   }
 
+
   const fetchDotFeedback = async () => {
     setDotFeedback(await getFeedback(senderToken, receiverToken));
   }
 
+
   const fetchCategories = async () => {
     setCategories(await getCategories(senderToken, receiverToken))
   }
+
 
   const setSessionTokens = async () => {
     const tokens = await createSession();
@@ -229,11 +247,14 @@ function App() {
     setReceiverToken(tokens[1]);
   }
 
+
   const enterSession = async (sessionToken) => {
     const tokenData = await joinSession(sessionToken);
     if (tokenData == null) {
+      setIsSessionValid(false); // Set the state to indicate invalid session
       return;
     }
+
 
     setTokenInfo(tokenData)
     setIsSender(tokenData.isSender)
@@ -246,6 +267,7 @@ function App() {
       setReceiverToken(sessionToken)
       }
     }
+
 
     if (tokenData.isSender) {
       if (tokenData.uploadedImages == false) {
@@ -261,6 +283,7 @@ function App() {
       }
     }
   }
+
 
   const exitSession = async () => {
     setTokenInfo()
@@ -281,47 +304,50 @@ function App() {
     navigateToScreen(0, 0);
     setImageIndex(0);
   }
-  
+ 
   const navigateToScreen = (screenIndex, navStep) => {
     setCurrentScreenIndex(screenIndex);
     setCurrentNavStep(navStep);
   };
 
+
   const updateUserClickPosition = (xPercent, yPercent) => {
     setClickPosX(xPercent);
     setClickPosY(yPercent);
   }
-  
+ 
   const senderSteps = ['Upload', 'Category', 'View', 'Results'];
   const receiverSteps = ['View', 'Feedback', 'Results'];
 
+
   const steps = isSender ? senderSteps : receiverSteps;
+
 
   const renderScreen = () => {
     switch (currentScreenIndex) {
       case 0:
-        return <HomeScreen 
-        navigateToScreen={navigateToScreen} 
-        senderToken={senderToken} 
-        receiverToken={receiverToken} 
-        getSessionTokens={setSessionTokens} 
+        return <HomeScreen
+        navigateToScreen={navigateToScreen}
+        senderToken={senderToken}
+        receiverToken={receiverToken}
+        getSessionTokens={setSessionTokens}
         enterSession={enterSession}/>;
       case 1:
-        return <UploadScreen 
-        navigateToScreen={navigateToScreen} 
-        exitSession={exitSession} 
-        senderToken={senderToken} 
+        return <UploadScreen
+        navigateToScreen={navigateToScreen}
+        exitSession={exitSession}
+        senderToken={senderToken}
         receiverToken={receiverToken} />;
       case 2:
-        return <CategoryScreen 
-        navigateToScreen={navigateToScreen} 
+        return <CategoryScreen
+        navigateToScreen={navigateToScreen}
         exitSession={exitSession}
-        senderToken={senderToken} 
+        senderToken={senderToken}
         receiverToken={receiverToken} />;
       case 3:
-        return <ViewScreen 
-        navigateToScreen={navigateToScreen} 
-        exitSession={exitSession} 
+        return <ViewScreen
+        navigateToScreen={navigateToScreen}
+        exitSession={exitSession}
         isSender={isSender}
         setFeedbackImageIndex={setImageIndex}
         images={images}
@@ -334,8 +360,8 @@ function App() {
         clickPosY={clickPosY}
         updateUserClickPosition={updateUserClickPosition}/>;
       case 4:
-        return <FeedbackScreen 
-        navigateToScreen={navigateToScreen} 
+        return <FeedbackScreen
+        navigateToScreen={navigateToScreen}
         senderToken={senderToken}
         receiverToken={receiverToken}
         imageIndex={imageIndex}
@@ -343,35 +369,40 @@ function App() {
         clickPosY={clickPosY}
         updateUserClickPosition={updateUserClickPosition}
         critiquerName={critiquerName}
-        setCritiquerName={setCritiquerName} 
+        setCritiquerName={setCritiquerName}
         formalElement={formalElement}
         setFormalElement={setFormalElement}
         description={description}
-        setDescription={setDescription} 
+        setDescription={setDescription}
         effect={effect}
-        setEffect={setEffect} 
+        setEffect={setEffect}
         sentiment={sentiment}
         setSentiment={setSentiment}
         categoryIndex={categoryIndex}
         setCategoryIndex={setCategoryIndex}
         categories={categories}/>;
       case 5:
-        return <ResultsScreen 
+        return <ResultsScreen
         navigateToScreen={navigateToScreen} />;
       default:
         return null;
     }
   };
 
+
   return (
     <div style={{ backgroundColor: 'rgb(30, 30, 30)' }}>
       {currentScreenIndex !== 0 && (
         <ProgressNavigation steps={steps} currentStep={currentNavStep} setCurrentStep={setCurrentScreenIndex} />
       )}
-
+ 
       {renderScreen()}
+ 
+      {!isSessionValid && <InvalidSession onClose={() => setIsSessionValid(true)} />}
     </div>
   );
+ 
 }
+
 
 export default App;

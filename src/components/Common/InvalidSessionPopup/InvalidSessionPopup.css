@@ -1,0 +1,38 @@
+.popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+ 
+  .popup-inner {
+    background-color: #393939;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+  }
+
+
+  .popup-inner h2,
+  .popup-inner p {
+    color: white; /* Set text color to white */
+  }
+
+
+  .popup-inner button{
+    background-color: #BF8DFF;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 5px 10px;
+    margin-top: 15px;
+    color: white
+  }
+ 
+ 
