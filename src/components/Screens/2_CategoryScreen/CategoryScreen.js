@@ -27,6 +27,7 @@ function CategoryScreen( {navigateToScreen, exitSession, senderToken, receiverTo
   const defaultCategories = [
     'Contrast', 'Typography', 'Color', 'Balance', 'Layout', 'Saturation'
   ];
+  
   const [categories, setCategories] = useState(defaultCategories);
   const [selectedCategories, setSelectedCategories] = useState([]);
     // () => {
@@ -35,6 +36,11 @@ function CategoryScreen( {navigateToScreen, exitSession, senderToken, receiverTo
 
   useEffect(() => {
     // localStorage.setItem('selectedCategories', JSON.stringify(selectedCategories));
+    const sortedCategories = [
+      ...selectedCategories,
+      ...defaultCategories.filter(cat => !selectedCategories.includes(cat))
+    ];
+    setCategories(sortedCategories);
     console.log(selectedCategories.toString())
   }, [selectedCategories]);
 
@@ -42,15 +48,17 @@ function CategoryScreen( {navigateToScreen, exitSession, senderToken, receiverTo
 
   const handleCheckboxChange = (category) => {
     setSelectedCategories(prevSelected => {
-      const newSelected = prevSelected.includes(category)
-        ? prevSelected.filter(item => item !== category)
-        : [...prevSelected, category];
-      return newSelected;
+      const isSelected = prevSelected.includes(category);
+      if (isSelected) {
+        return prevSelected.filter(item => item !== category);
+      } else {
+        return [category, ...prevSelected];
+      }
     });
   };
 
   const addCategory = () => {
-    if (newCategory) {
+    if (newCategory && !categories.includes(newCategory)) {
       setCategories([...categories, newCategory]);
       setNewCategory('');
     }
