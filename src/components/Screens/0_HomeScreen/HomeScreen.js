@@ -36,7 +36,7 @@ function HomeScreen({senderToken, receiverToken, getSessionTokens, enterSession 
   }
 
   const formatToken = (token) => {
-    return token ? `${String(token).substring(0, 3)}-${String(token).substring(3)}` : '';
+    return token ? `${String(token).substring(0, 3)} ${String(token).substring(3)}` : '';
   }
 
   return (
