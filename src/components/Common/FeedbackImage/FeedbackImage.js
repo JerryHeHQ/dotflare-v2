@@ -170,7 +170,7 @@ const FeedbackImage = ({
       null}
       {clickPosX != null && clickPosY != null
       ?
-      <div style={calculateDotStyle(null, true)}/>
+      <div style={calculateDotStyle(null, true)} onClick={() => {updateUserClickPosition(null, null);}}/>
       :
       null}
     </div>
