@@ -37,10 +37,11 @@ function FeedbackScreen({
     navigateToScreen(3, 0);
   }
 
+  useEffect(() => {
+    setSentiment(false)
+  }, []);
+
   const onNextClick = async () => {
-    if (sentiment == null) {
-      setSentiment(false)
-    }
     await addFeedback(
       senderToken, 
       receiverToken, 
