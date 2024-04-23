@@ -38,6 +38,9 @@ function FeedbackScreen({
   }
 
   const onNextClick = async () => {
+    if (sentiment == null) {
+      setSentiment(false)
+    }
     await addFeedback(
       senderToken, 
       receiverToken, 
