@@ -101,7 +101,7 @@ function CategoryScreen( {navigateToScreen, exitSession, senderToken, receiverTo
           </div>
         ))}
       </div>
-      <NavigationButton backVisibility={true} nextVisibility={true} backText={"Home"} nextText={"Confirm"} backFunction={onBackClick} nextFunction={onNextClick}/>
+      <NavigationButton backVisibility={true} nextVisibility={selectedCategories.length > 0} backText={"Home"} nextText={"Confirm"} backFunction={onBackClick} nextFunction={onNextClick}/>
     </div>
   );
 }

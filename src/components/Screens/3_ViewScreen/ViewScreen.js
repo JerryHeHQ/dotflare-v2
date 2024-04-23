@@ -144,7 +144,7 @@ function ViewScreen({
 
       
       
-      <NavigationButton backVisibility={true} nextVisibility={true} backText={"Home"} nextText={"Next"} backFunction={onBackClick} nextFunction={onNextClick}/>
+      <NavigationButton backVisibility={true} nextVisibility={false} backText={"Home"} nextText={"Next"} backFunction={onBackClick} nextFunction={onNextClick}/>
     </div>
   );
 

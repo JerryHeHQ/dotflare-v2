@@ -91,6 +91,10 @@ async function createSession() {
 // sessionToken: the token to get the session data from
 // return: session token data on success and null on failure
 async function joinSession(sessionToken) {
+  if (!sessionToken) {
+    console.error('Session token is empty');
+    return null;
+  }
   const sessionTokenRef = db.collection('sessionTokens').doc(`${sessionToken}`);
 
   try {

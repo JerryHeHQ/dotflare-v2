@@ -316,8 +316,8 @@ function App() {
     setClickPosY(yPercent);
   }
  
-  const senderSteps = ['Upload', 'Category', 'View', 'Results'];
-  const receiverSteps = ['View', 'Feedback', 'Results'];
+  const senderSteps = ['Upload', 'Category', 'View'];
+  const receiverSteps = ['View', 'Feedback'];
 
 
   const steps = isSender ? senderSteps : receiverSteps;

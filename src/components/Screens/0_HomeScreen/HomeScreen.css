@@ -63,7 +63,7 @@
   margin: 5px;
   text-align: center;
   font-size: 20px;
-  border: 2px solid #BF8DFF;
+  border: 2px solid #4D4D4D;
   background-color: #222; 
 }
 
@@ -99,4 +99,21 @@
   font-size: 24px;
   line-height: 100%;
   font-family: monospace;
+}
+
+.digit-input {
+  width: 40px;
+  padding: 8px;
+  margin: 5px;
+  text-align: center;
+  font-size: 20px;
+  border: 2px solid #4D4D4D;
+  background-color: #222;
+  border-radius: 5px;
+  transition: border-color 0.3s; /* Add transition for smoother effect */
+}
+
+.digit-input:focus {
+  border-color: #BF8DFF;
+  outline: none;
 }

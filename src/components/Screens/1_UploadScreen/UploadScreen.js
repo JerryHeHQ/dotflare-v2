@@ -50,7 +50,7 @@ function UploadScreen({navigateToScreen, exitSession, senderToken, receiverToken
         id="upload-input"
       />
       <div className="bottom-bar"></div>
-      <NavigationButton backVisibility={true} nextVisibility={true} backText={"Home"} nextText={"Upload"} backFunction={onBackClick} nextFunction={onNextClick}/>
+      <NavigationButton backVisibility={true} nextVisibility={pictures.length > 0} backText={"Home"} nextText={"Upload"} backFunction={onBackClick} nextFunction={onNextClick}/>
     </div>
   );
 }

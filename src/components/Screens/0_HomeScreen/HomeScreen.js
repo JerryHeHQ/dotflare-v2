@@ -39,6 +39,28 @@ function HomeScreen({senderToken, receiverToken, getSessionTokens, enterSession 
     return token ? `${String(token).substring(0, 3)} ${String(token).substring(3)}` : '';
   }
 
+  const handlePaste = (e, index) => {
+    e.preventDefault();
+    const clipboardData = e.clipboardData.getData("text/plain");
+    const pastedData = clipboardData.replace(/\s/g, '').match(/[0-9]{1,6}/);
+    if (pastedData) {
+      const newDigits = [...digits];
+      const numDigits = pastedData[0].length;
+      const startIndex = Math.min(index, 6 - numDigits);
+      for (let i = 0; i < numDigits; i++) {
+        newDigits[startIndex + i] = pastedData[0][i];
+      }
+      setDigits(newDigits);
+      if (startIndex + numDigits < 6) {
+        inputRefs.current[startIndex + numDigits].focus();
+      } else {
+        inputRefs.current[5].focus();
+      }
+    }
+  };
+  
+  
+
   return (
     <div className="homeScreen">
       <NavBar />
@@ -56,6 +78,7 @@ function HomeScreen({senderToken, receiverToken, getSessionTokens, enterSession 
               value={digit}
               onChange={e => handleDigitInput(e.target.value, index)}
               onFocus={e => e.target.select()}
+              onPaste={e => handlePaste(e, index)}
             />
             {index === 2 && <div className="input-dash">-</div>}
             </>
